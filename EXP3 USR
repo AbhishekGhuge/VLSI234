@@ -1,0 +1,45 @@
+signal t : STD_LOGIC_VECTOR (3 downto 0);
+begin
+     process(clk, rst)
+	  begin
+	  
+	  if rst = '1' then
+	  y<="0000";
+	  elsif clk'event and clk = '1' then
+	  case(m) is
+	  
+	  when"00"=>                 --SISO
+	           t(3)<= s(0);
+				  t(2)<= t(3);
+				  t(1)<= t(2);
+				  t(0)<= t(1);
+				  y(0)<= t(0);
+				  
+		when"01"=>                --SIPO
+	           t(3)<= s(0);
+				  t(2)<= t(3);
+				  t(1)<= t(2);
+				  t(0)<= t(1);
+				  y<= t;		
+
+      when"10"=>                --PIPO
+	           t<= s;
+				  y<= t;
+				  
+		when"11"=>                --PISO
+	           t<= s;
+				  t(2)<= t(3);
+				  t(1)<= t(2);
+				  t(0)<= t(1);
+				  y(3)<= t(0);	
+      when others=> NULL;
+
+end case;
+end if;
+end process;
+end Behavioral;
+
+
+
+
+
