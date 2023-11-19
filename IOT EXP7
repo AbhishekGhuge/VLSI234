@@ -1,0 +1,69 @@
+Bluetooth Module interfacing Sketch:
+
+#define LED1 8
+
+#define LED2 9
+
+#define LED3 10
+
+#define LED4 11
+
+String data;
+
+int btVal;
+
+void setup()
+
+{
+
+pinMode(LEDI, OUTPUT);
+
+pinMode(LED2, OUTPUT);
+
+pinMode(LED3, OUTPUT);
+
+pinMode(LED4, OUTPUT);
+
+digitalWrite(LEDI, LOW);
+
+digitalWrite(LED2, LOW);
+
+digitalWrite(LED3, LOW);
+
+digitalWrite(LED4, LOW);
+
+Serial.begin(9600);
+
+void loop()
+
+1
+
+while (Serial.available())
+
+{
+
+data = Serial readStringUntil("\n");
+}
+btVal = (data.tolnt());
+
+switch (btVal)
+
+1
+
+case 1:
+
+Serial.println("LEDI TOGGLE") digitalWrite(LEDI, digitalRead(LED1)); break;
+
+case 2:
+
+Serial.println("LED2 TOGGLE"); digitalWrite(LED2, !digitalRead(LED2)); break;
+
+case 3:
+
+Serial.println("LED3 TOGGLE"); digitalWrite(LED3, IdigitalRead(LED3));
+
+break;
+
+case 4;
+
+Serial.println("LED4 TOGGLE"); digitalWrite(LED4, digitalRead(LED4)); break;
