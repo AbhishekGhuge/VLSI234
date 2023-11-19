@@ -1,0 +1,23 @@
+process (a, b, mode1)
+
+begin
+
+case mode1 is
+
+when "000" =>RESULT<= NOT a;
+
+when"001" =>RESULT<=a AND b;
+
+when"010" =>RESULT<=a OR b;
+
+when"111" =>RESULT<=a NOR b;
+
+when"011" =>RESULT<=a XOR b;
+
+when"100" =>RESULT<=a NAND b;
+
+when others =>null;
+
+end case;
+
+end process;
