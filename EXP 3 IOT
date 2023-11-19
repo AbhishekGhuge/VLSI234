@@ -1,0 +1,67 @@
+//INTERFACING SENSOR AND ACTUTORS
+#include <Servo.h>
+
+
+const int TOUCH_SENSOR_PIN = 7;
+
+const int SERVO_PIN        = 9;
+
+
+Servo servo;
+
+
+int angle = 0;      
+
+int lastTouchState;
+
+int currentTouchState;
+
+
+void setup()
+
+{
+
+  Serial.begin(9600);            
+
+  pinMode(TOUCH_SENSOR_PIN, INPUT);
+
+  servo.attach(SERVO_PIN);
+
+
+  servo.write(angle);
+
+  currentTouchState = digitalRead(TOUCH_SENSOR_PIN);
+
+}
+
+
+void loop()
+
+{
+
+  lastTouchState    = currentTouchState;            
+
+  currentTouchState = digitalRead(TOUCH_SENSOR_PIN);
+
+
+  if(lastTouchState == LOW && currentTouchState == HIGH) {
+
+    Serial.println("The sensor is touched");
+
+
+    if(angle == 0)
+
+      angle = 90;
+
+    else
+
+    if(angle == 90)
+
+      angle = 0;
+
+
+    servo.write(angle);
+
+  }
+
+}
