@@ -1,0 +1,59 @@
+type memory_type is array (0 to 7) of std_logic_vector(3 downto 0);
+
+signal memory : memory_type;-- :=(others => '0'));
+
+signal readptr,writeptr : std_logic_vector(3 downto 0):="0000";
+signal clk: std_logic;
+signal cnt : std_logic_vector(20 downto 0);
+
+begin
+clk_div : process(mclk,rst)
+   begin
+	
+	     if rst = '1' then
+		  cnt <= (others => '0');
+		  
+		  elsif mclk'event and mclk = '1' then
+		  cnt <= cnt+'1';
+
+                if (cnt = "011110100001001000000") then -- 20bit 50 Hz @ 20 msec ~ 1M -- 0100110001001011010000000               --25bit 5 Hz @ 200 msec ~ 10M
+                    clk <= '1';
+                    cnt <= (others =>'0');
+					 else
+                    clk <= '0';
+			end if;
+        end if;
+end process;
+
+process(clk)		  
+begin
+     
+	  if(clk'event and clk='1' and enw='1') then
+	         memory(conv_integer(writeptr)) <= datain;
+				writeptr <= writeptr+'1';
+     end if;
+	  
+	  if(clk' event and clk='1' and env='1') then
+	         dataout <= memory(conv_integer(readptr));
+				readptr <= readptr+'1';
+	  end if;
+
+     if(readptr = "1000") then 
+               empty<='1';
+               readptr<= "0000";
+     else
+               empty<='0';
+     end if;
+
+     if(writeptr = "1000") then 
+               full<='1';
+               writeptr<= "0000";
+     else
+               full<='0';
+     end if;  
+
+end process;
+
+
+end Behavioral;
+
